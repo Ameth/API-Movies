@@ -1,0 +1,19 @@
+{
+  "name": "api-movies",
+  "version": "1.0.0",
+  "description": "PlatziMovies API Proyect",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ameth/API-Movies.git"
+  },
+  "author": "@amethgabriel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ameth/API-Movies/issues"
+  },
+  "homepage": "https://github.com/Ameth/API-Movies#readme"
+}

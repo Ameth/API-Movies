@@ -34,14 +34,23 @@
     <div class="header-movie-title">Animales fantásticos: Los secretos de Dumbledore</div>
 
     <div class="listGenres-container">
-        <!-- <p class="listGenres-item">Accion</p>
-        <p class="listGenres-item">Drama</p>
-        <p class="listGenres-item">Romance</p>
-        <p class="listGenres-item">Crimen</p>
-        <p class="listGenres-item">Misterio</p>
-        <p class="listGenres-item">Adultos</p>
-        <p class="listGenres-item">Comedia</p> -->
+        <p class="listGenres-item listGenres-item--loading"></p>
+        <p class="listGenres-item listGenres-item--loading"></p>
+        <p class="listGenres-item listGenres-item--loading"></p>
+        <p class="listGenres-item listGenres-item--loading"></p>
+        <p class="listGenres-item listGenres-item--loading"></p>
     </div>
+
+    <section id="liked" class="liked-container">
+        <div class="liked-header">
+            <h2 class="liked-title">Mi lista de favoritos</h2>
+        </div>
+
+        <article class="liked-movieList">
+            <div class="movie-container">
+            </div>
+        </article>
+    </section>
 
     <section id="trendingPreview" class="trendingPreview-container">
         <div class="trendingPreview-header">
@@ -50,14 +59,17 @@
         </div>
 
         <article class="trendingPreview-movieList">
-            <!-- <div class="movie-container">
-                <img src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg" class="movie-img" alt="Nombre de la película" />
-            </div> -->
+            <div class="movie-container movie-container--loading"></div>
+            <div class="movie-container movie-container--loading"></div>
+            <div class="movie-container movie-container--loading"></div>
+            <div class="movie-container movie-container--loading"></div>
+            <div class="movie-container movie-container--loading"></div>
         </article>
     </section>
 
     <section id="genericList" class="genericList-container inactive">
         <h2 class="genericList-title">Categoria</h2>
+        <h2 class="genericList-results inactive">Resultados: 0</h2>
 
         <article class="generic-movieList">
             <!-- <div class="movie-container">
@@ -73,14 +85,38 @@
             Wisecracking mercenary Deadpool battles the evil and powerful Cable and other bad guys to save a boy's life.
         </p>
 
-        <div class="categories-list">
+        <div class="movieCast-container">
+            <h2 class="movieCast-title">Elenco: </h2>
+            <p id="movieCast" class="movieDetail-description-cast">
 
+            </p>
+
+        </div>
+
+        <div class="movieCast-container">
+            <h2 class="movieCast-title">Dirigido por: </h2>
+            <p id="movieDirector" class="movieDetail-description-cast">
+
+            </p>
+        </div>
+
+        <div class="categories-list">
+            <p class="listGenres-item listGenres-item--loading"></p>
+            <p class="listGenres-item listGenres-item--loading"></p>
+            <p class="listGenres-item listGenres-item--loading"></p>
+            <p class="listGenres-item listGenres-item--loading"></p>
+            <p class="listGenres-item listGenres-item--loading"></p>
         </div>
 
         <article class="relatedMovies-container">
             <h2 class="relatedMovies-title">Películas similares</h2>
 
             <div class="relatedMovies-scrollContainer">
+                <div class="movie-container movie-container--loading"></div>
+                <div class="movie-container movie-container--loading"></div>
+                <div class="movie-container movie-container--loading"></div>
+                <div class="movie-container movie-container--loading"></div>
+                <div class="movie-container movie-container--loading"></div>
                 <!-- <div class="movie-container">
                     <img src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg" class="movie-img" alt="Nombre de la película" />
                 </div> -->

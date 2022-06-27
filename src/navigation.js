@@ -1,3 +1,7 @@
+let page = 1;
+let max_page = 1;
+let fnLoadMorePage;
+
 searchFormBtn.addEventListener("click", () => {
     location.hash = `#search=${searchFormInput.value.trim()}`;
 })
@@ -6,8 +10,16 @@ trendingBtn.addEventListener("click", () => {
     location.hash = `#trends`;
 })
 
-const navigator = () => {
-    console.log(location);
+window.addEventListener('scroll', fnLoadMorePage);
+
+//Funcion general de navegación entre páginas
+const navigatorPages = () => {
+    // console.log(location);
+
+    if (fnLoadMorePage) {
+        window.removeEventListener("scroll", fnLoadMorePage);
+        fnLoadMorePage = undefined;
+    }
 
     if (location.hash.startsWith('#trends')) {
         trends();
@@ -22,24 +34,63 @@ const navigator = () => {
     }
 
     smoothscroll();
+
+    if (fnLoadMorePage) {
+        window.addEventListener('scroll', fnLoadMorePage);
+    }
 }
 
+//Funciones que obtienen más contenido paginado al hacer scroll
+const getMoreTrends = () => {
+    if (scrollIsBottom() && (page <= max_page)) {
+        getTendenciasAll(page);
+        page++;
+    }
+}
+
+const getMoreCategories = (gen_id) => {
+    return () => {
+        // console.log("Haciendo scroll, valor de page: " + page);
+        if (scrollIsBottom() && (page <= max_page)) {
+            // console.log("Entro en if");
+            getMovieByGenres(gen_id, page)();
+            page++;
+        }
+    }
+}
+
+const getMoreSearch = (query) => {
+    return () => {
+        // console.log("Haciendo scroll, valor de page: " + page);
+        if (scrollIsBottom() && (page <= max_page)) {
+            // console.log("Entro en if");
+            getSearchMovie(query, page)();
+            page++;
+        }
+    }
+}
+
+//Funciones que cargan el contenido de cada sección de la aplicación
 const homePage = () => {
     console.log('HOME');
 
     headerSection.classList.remove("header-container--long");
     headerSection.style.background = '';
     headerTitle.classList.remove("inactive");
-    arrowBtn.classList.add("inactive");
-    genericSection.classList.add("inactive");
     trendingPreviewSection.classList.remove("inactive");
     searchForm.classList.remove("inactive");
     listContainer.classList.remove("inactive");
     genericListTitle.classList.remove("inactive");
+    likedSection.classList.remove("inactive");
+
+    arrowBtn.classList.add("inactive");
+    genericSection.classList.add("inactive");
+    genericListResults.classList.add("inactive");
     movieDetailSection.classList.add("inactive");
     movieDetailTitleHeader.classList.add("inactive");
 
     getListGenres();
+    getLikedMovies();
     getTendenciasPreview();
 
 }
@@ -64,19 +115,26 @@ const categories = () => {
 
     genericListTitle.innerHTML = gen_name;
 
-    getMovieByGenres(gen_id);
+    fnLoadMorePage = getMoreCategories(gen_id);
+
+    page = 2;
+    getListGenres();
+    getMovieByGenres(gen_id)();
 
     headerSection.classList.remove("header-container--long");
     headerSection.style.background = '';
     headerTitle.classList.remove("inactive");
     arrowBtn.classList.remove("inactive");
     genericSection.classList.remove("inactive");
-    trendingPreviewSection.classList.add("inactive");
-    searchForm.classList.add("inactive");
     listContainer.classList.remove("inactive");
     genericListTitle.classList.remove("inactive");
+
     movieDetailSection.classList.add("inactive");
     movieDetailTitleHeader.classList.add("inactive");
+    searchForm.classList.add("inactive");
+    genericListResults.classList.add("inactive");
+    likedSection.classList.add("inactive");
+    trendingPreviewSection.classList.add("inactive");
 
 }
 
@@ -85,18 +143,27 @@ const search = () => {
 
     let [, query] = location.hash.split('=');
 
-    getSearchMovie(query);
+    fnLoadMorePage = getMoreSearch(query);
+
+    page = 2;
+
+    getSearchMovie(query)();
+
+    trendingPreviewSection.classList.add("inactive");
+    listContainer.classList.add("inactive");
+    genericListTitle.classList.add("inactive");
+    movieDetailSection.classList.add("inactive");
+    movieDetailTitleHeader.classList.add("inactive");
+    likedSection.classList.add("inactive");
 
     headerSection.classList.remove("header-container--long");
     headerSection.style.background = '';
     headerTitle.classList.remove("inactive");
     arrowBtn.classList.remove("inactive");
     genericSection.classList.remove("inactive");
-    trendingPreviewSection.classList.add("inactive");
-    listContainer.classList.add("inactive");
-    genericListTitle.classList.add("inactive");
-    movieDetailSection.classList.add("inactive");
-    movieDetailTitleHeader.classList.add("inactive");
+    genericListResults.classList.remove("inactive");
+
+
 }
 
 const trends = () => {
@@ -104,6 +171,10 @@ const trends = () => {
 
     genericListTitle.innerHTML = 'Tendencias';
 
+    fnLoadMorePage = getMoreTrends;
+
+    page = 2;
+    getListGenres();
     getTendenciasAll();
 
     headerSection.classList.remove("header-container--long");
@@ -111,12 +182,17 @@ const trends = () => {
     headerTitle.classList.remove("inactive");
     arrowBtn.classList.remove("inactive");
     genericSection.classList.remove("inactive");
-    trendingPreviewSection.classList.add("inactive");
     searchForm.classList.remove("inactive");
     listContainer.classList.remove("inactive");
     genericListTitle.classList.remove("inactive");
+
+    trendingPreviewSection.classList.add("inactive");
+    genericListResults.classList.add("inactive");
     movieDetailSection.classList.add("inactive");
     movieDetailTitleHeader.classList.add("inactive");
+    likedSection.classList.add("inactive");
+
+
 }
 
 const movieDetails = () => {
@@ -134,6 +210,8 @@ const movieDetails = () => {
     searchForm.classList.add("inactive");
     listContainer.classList.add("inactive");
     genericListTitle.classList.add("inactive");
+    genericListResults.classList.add("inactive");
+    likedSection.classList.add("inactive");
 
     movieDetailSection.classList.remove("inactive");
     movieDetailTitleHeader.classList.remove("inactive");
@@ -147,7 +225,8 @@ const smoothscroll = () => {
     }
 };
 
-window.addEventListener("hashchange", navigator, false);
-window.addEventListener("DOMContentLoaded", navigator, false);
+window.addEventListener("hashchange", navigatorPages, false);
+window.addEventListener("DOMContentLoaded", navigatorPages, false);
+
 
 arrowBtn.addEventListener("click", () => location.hash = '#home');
